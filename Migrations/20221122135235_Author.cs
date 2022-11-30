@@ -4,58 +4,70 @@
 
 namespace Ioica_Roxana_Lab2.Migrations
 {
-    public partial class Publisher : Migration
+    public partial class Author : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Author",
+                table: "Book");
+
             migrationBuilder.AddColumn<int>(
-                name: "PublisherID",
+                name: "AuthorID",
                 table: "Book",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Publisher",
+                name: "Author",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PublisherName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Publisher", x => x.ID);
+                    table.PrimaryKey("PK_Author", x => x.ID);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Book_PublisherID",
+                name: "IX_Book_AuthorID",
                 table: "Book",
-                column: "PublisherID");
+                column: "AuthorID");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Book_Publisher_PublisherID",
+                name: "FK_Book_Author_AuthorID",
                 table: "Book",
-                column: "PublisherID",
-                principalTable: "Publisher",
+                column: "AuthorID",
+                principalTable: "Author",
                 principalColumn: "ID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Book_Publisher_PublisherID",
+                name: "FK_Book_Author_AuthorID",
                 table: "Book");
 
             migrationBuilder.DropTable(
-                name: "Publisher");
+                name: "Author");
 
             migrationBuilder.DropIndex(
-                name: "IX_Book_PublisherID",
+                name: "IX_Book_AuthorID",
                 table: "Book");
 
             migrationBuilder.DropColumn(
-                name: "PublisherID",
+                name: "AuthorID",
                 table: "Book");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Author",
+                table: "Book",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
     }
 }
